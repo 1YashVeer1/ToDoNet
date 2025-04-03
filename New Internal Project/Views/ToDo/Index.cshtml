@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>To-Do List</h2>
+
+<a href="@Url.Action("Logout", "Login")">
+    <button>🚪 Logout</button>
+</a>
+
+
+<!-- Add Task Form -->
+@if (ViewBag.TaskName != null)
+{
+    <!-- If viewing a specific task, show only that task -->
+    <h3>Task: @ViewBag.TaskName</h3>
+    <button onclick="goBack()">⬅️ Back</button>
+}
+else
+{
+    <!-- If viewing all tasks, show the full list -->
+    <input type="text" id="newTask" placeholder="Enter Task" />
+    <button onclick="addTask()" style="background-color: blue; color: white; padding: 5px; border: none; border-radius: 5px;">➕ Add Task</button>
+
+    <ul id="taskList"></ul>
+}
+
+
+<!-- Hidden Edit Section -->
+<div id="editSection" style="display:none;">
+    <input type="text" id="editTask" />
+    <button onclick="saveTask()">💾 Save</button>
+    <button onclick="cancelEdit()">❌ Cancel</button>
+</div>
+
+<!-- jQuery AJAX Script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        loadTasks(); // Load tasks on page load
+    });
+
+    function loadTasks() {
+        $.get("/ToDo/GetTasks", function (tasks) {
+            $("#taskList").empty();
+            tasks.forEach((task, index) => {
+                $("#taskList").append(`<li>${task}
+                    <button onclick="editTask(${index}, '${task}')">✏️ Edit</button>
+                    <button onclick="deleteTask(${index})">❌ Delete</button>
+                </li>`);
+            });
+        });
+    }
+
+    //function addTask() {
+    //    var task = $("#newTask").val();
+    //    if (task.trim() !== "") {
+    //        $.post("/ToDo/AddTask", { task: task }, function () {
+    //            $("#newTask").val(""); // Clear input
+    //            loadTasks();
+    //        });
+    //    }
+    //}
+
+    function addTask() {
+        var task = $("#newTask").val();
+        if (task.trim() !== "") {
+            $.post("/ToDo/AddTask", { task: task }, function (response) {
+                debugger
+                console.log(response, 'ffefe')
+                if (response.success) {
+                    window.location.href = response.redirectUrl; // Redirect to new route
+
+                }
+                $("#newTask").val(""); // Clear input
+                loadTasks();
+            });
+        } else if (task == "") {
+            alert("plzz wirte something")
+        }
+    }
+
+    function editTask(id, task) {
+        $("#editTask").val(task);
+        $("#editSection").show();
+        $("#editSection").data("taskId", id);
+    }
+
+    function saveTask() {
+        var updatedTask = $("#editTask").val();
+        var taskId = $("#editSection").data("taskId");
+        $.post("/ToDo/EditTask", { id: taskId, updatedTask: updatedTask }, function () {
+            $("#editSection").hide();
+
+            loadTasks();
+        });
+    }
+
+    function cancelEdit() {
+        $("#editSection").hide();
+    }
+
+    function deleteTask(id) {
+        $.post("/ToDo/DeleteTask", { id: id }, function () {
+            loadTasks();
+        });
+    }
+    function goBack() {
+        window.location.href = "/ToDo"; // Redirect back to full list
+    }
+    function logout() {
+        window.location.href = "/Login/Login";
+    }
+    // Prevent going back to Login after successful login
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    window.onpopstate = function () {
+        window.history.pushState(null, null, window.location.href);
+    };
+</script>

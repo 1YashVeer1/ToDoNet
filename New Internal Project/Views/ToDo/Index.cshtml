@@ -3,12 +3,25 @@
     ViewBag.Title = "Index";
 }
 
+<style>
+    .todo-container {
+        display: flex;
+        align-items: center;
+        /*justify-content: center;*/
+        flex-direction: column;
+        gap: 1rem;
+        height: 100vh;
+        background: linear-gradient(#57b8d1, #4c8ed9);
+    }
+</style>
 
-<h2>To-Do List</h2>
+<div class="todo-container">
+    <h2>To-Do List</h2>
 
-<a href="@Url.Action("Logout", "Login")">
+
+@*<a href="@Url.Action("Logout", "Login")">
     <button>🚪 Logout</button>
-</a>
+</a>*@
 
 
 <!-- Add Task Form -->
@@ -21,10 +34,12 @@
 else
 {
     <!-- If viewing all tasks, show the full list -->
+<div>
     <input type="text" id="newTask" placeholder="Enter Task" />
     <button onclick="addTask()" style="background-color: blue; color: white; padding: 5px; border: none; border-radius: 5px;">➕ Add Task</button>
 
     <ul id="taskList"></ul>
+</div>
 }
 
 
@@ -33,6 +48,9 @@ else
     <input type="text" id="editTask" />
     <button onclick="saveTask()">💾 Save</button>
     <button onclick="cancelEdit()">❌ Cancel</button>
+</div>
+
+
 </div>
 
 <!-- jQuery AJAX Script -->

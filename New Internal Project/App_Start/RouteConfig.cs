@@ -15,18 +15,18 @@ public class RouteConfig
 
 
        //  ✅ More specific route for AddTask
-        routes.MapRoute(
-            name: "AddTask",
-            url: "ToDo/AddTask",
-            defaults: new { controller = "ToDo", action = "AddTask" }
-        );
+        //routes.MapRoute(
+        //    name: "AddTask",
+        //    url: "ToDo/AddTask",
+        //    defaults: new { controller = "ToDo", action = "AddTask" }
+        //);
 
-        // ✅ Route for dynamic task pages (must come after specific routes)
-        routes.MapRoute(
-            name: "TaskRoute",
-            url: "ToDo/{id}",
-            defaults: new { controller = "ToDo", action = "NewTask" }
-        );
+        //// ✅ Route for dynamic task pages (must come after specific routes)
+        //routes.MapRoute(
+        //    name: "TaskRoute",
+        //    url: "ToDo/{id}",
+        //    defaults: new { controller = "ToDo", action = "NewTask" }
+        //);
 
         // 🟢 Default Route
         routes.MapRoute(

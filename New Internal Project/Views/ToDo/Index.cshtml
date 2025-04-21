@@ -13,43 +13,62 @@
         height: 100vh;
         background: linear-gradient(#57b8d1, #4c8ed9);
     }
+    .editbtn {
+        border: none;
+        background-color: transparent;
+    }
+    .deletebtn {
+        border: none;
+        background-color: transparent;
+    }
+    .list {
+        width: 90%;
+        word-break: break-all;
+        border-radius: 25px;
+        background-color: rgb(25, 55, 69);
+        color: white;
+        padding: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        gap:1rem;
+    }
 </style>
 
 <div class="todo-container">
-    <h2>To-Do List</h2>
+    @*<h2>To-Do List</h2>*@
 
 
-@*<a href="@Url.Action("Logout", "Login")">
-    <button>🚪 Logout</button>
-</a>*@
+    @*<a href="@Url.Action("Logout", "Login")">
+            <button>🚪 Logout</button>
+        </a>*@
 
 
-<!-- Add Task Form -->
-@if (ViewBag.TaskName != null)
-{
-    <!-- If viewing a specific task, show only that task -->
-    <h3>Task: @ViewBag.TaskName</h3>
-    <button onclick="goBack()">⬅️ Back</button>
-}
-else
-{
-    <!-- If viewing all tasks, show the full list -->
-<div>
-    <input type="text" id="newTask" placeholder="Enter Task" />
-    <button onclick="addTask()" style="background-color: blue; color: white; padding: 5px; border: none; border-radius: 5px;">➕ Add Task</button>
-
-    <ul id="taskList"></ul>
-</div>
-}
+    <!-- Add Task Form -->
+    @if (ViewBag.Username != null)
+    {
+        <div style="text-align: right; padding: 10px;">
+            <h4>Welcome, @ViewBag.Username 👋</h4>
+        </div>
+    
+        <!-- If viewing all tasks, show the full list -->
+        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 2rem; width: 50%; margin-top:5rem ">
+            <div style=" border: 1px solid rgb(25, 55, 69); background-color: rgb(25, 55, 69); border-radius: 5px">
+                <input type="text" id="newTask" placeholder="Add a Task" style="height: 34px; color: white; background-color: rgb(25, 55, 69); border: none" />
+                <button onclick="addTask()" style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px;">➕ Add Task</button>
+            </div>
+            <ul id="taskList" style=" width: 40%; display: flex; flex-direction: column; gap: 1rem"></ul>
+        </div>
 
 
-<!-- Hidden Edit Section -->
-<div id="editSection" style="display:none;">
-    <input type="text" id="editTask" />
-    <button onclick="saveTask()">💾 Save</button>
-    <button onclick="cancelEdit()">❌ Cancel</button>
-</div>
+    }
 
+
+    <!-- Hidden Edit Section -->
+    <div id="editSection" style="display:none;">
+        <input type="text" id="editTask" />
+        <button onclick="saveTask()">💾 Save</button>
+        <button onclick="cancelEdit()">❌ Cancel</button>
+    </div>
 
 </div>
 
@@ -64,10 +83,12 @@ else
         $.get("/ToDo/GetTasks", function (tasks) {
             $("#taskList").empty();
             tasks.forEach((task, index) => {
-                $("#taskList").append(`<li>${task}
-                    <button onclick="editTask(${index}, '${task}')">✏️ Edit</button>
-                    <button onclick="deleteTask(${index})">❌ Delete</button>
-                </li>`);
+                $("#taskList").append(`<div class=list>${task} 
+                <div style="display: flex; align-items: center"> 
+                    <button class=editbtn onclick="editTask(${index}, '${task}')">✏️</button>
+                    <button  class=deletebtn onclick="deleteTask(${index})">❌</button>
+                <div>
+                </div>`);
             });
         });
     }
@@ -75,28 +96,30 @@ else
     //function addTask() {
     //    var task = $("#newTask").val();
     //    if (task.trim() !== "") {
-    //        $.post("/ToDo/AddTask", { task: task }, function () {
+    //        $.post("/ToDo/AddTask", { task: task }, function (response) {
+    //            debugger
+    //            console.log(response, 'ffefe')
+    //            if (response.success) {
+    //                window.location.href = response.redirectUrl; // Redirect to new route
+
+    //            }
     //            $("#newTask").val(""); // Clear input
     //            loadTasks();
     //        });
+    //    } else if (task == "") {
+    //        alert("Add your task first")
     //    }
     //}
-
+    
     function addTask() {
         var task = $("#newTask").val();
         if (task.trim() !== "") {
-            $.post("/ToDo/AddTask", { task: task }, function (response) {
-                debugger
-                console.log(response, 'ffefe')
-                if (response.success) {
-                    window.location.href = response.redirectUrl; // Redirect to new route
-
-                }
+            $.post("/ToDo/AddTask", { task: task }, function () {
                 $("#newTask").val(""); // Clear input
                 loadTasks();
-            });
+            });  
         } else if (task == "") {
-            alert("plzz wirte something")
+            alert("Add your task first")
         }
     }
 
@@ -125,18 +148,18 @@ else
             loadTasks();
         });
     }
-    function goBack() {
-        window.location.href = "/ToDo"; // Redirect back to full list
-    }
+    //function goBack() {
+    //    window.location.href = "/ToDo"; // Redirect back to full list
+    //}
     function logout() {
         window.location.href = "/Login/Login";
     }
     // Prevent going back to Login after successful login
-    if (window.history.replaceState) {
-        window.history.replaceState(null, null, window.location.href);
-    }
+    //if (window.history.replaceState) {
+    //    window.history.replaceState(null, null, window.location.href);
+    //}
 
-    window.onpopstate = function () {
-        window.history.pushState(null, null, window.location.href);
-    };
+    //window.onpopstate = function () {
+    //    window.history.pushState(null, null, window.location.href);
+    //};
 </script>

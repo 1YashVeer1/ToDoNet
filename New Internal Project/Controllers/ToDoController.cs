@@ -14,13 +14,18 @@ namespace New_Internal_Project.Controllers
         private static List<string> tasks = new List<string>(); // Temporary Task List
 
         public ActionResult Index()
+    {
+        if (Session["User"] != null)
         {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            return View();
+            ViewBag.Username = Session["User"].ToString();  
         }
+        else
+        {
+            return RedirectToAction("Index", "Login"); 
+        }
+
+        return View();
+    }
 
         // Get Tasks (For AJAX)
         public JsonResult GetTasks()
@@ -29,17 +34,30 @@ namespace New_Internal_Project.Controllers
         }
         // Add Task (AJAX Request)
         [HttpPost]
+        //[Route("todo/AddTask")]
+        //public JsonResult AddTask(string task)
+        //{
+        //    if (!string.IsNullOrEmpty(task))
+        //    {
+        //        tasks.Add(task);
+        //        return Json(new { success = true, redirectUrl = "/ToDo/" + task });
+        //    }
+        //    //return Json(tasks);
+        //    return Json(new { success = false });
+
+        //}
+
         [Route("todo/AddTask")]
         public JsonResult AddTask(string task)
         {
             if (!string.IsNullOrEmpty(task))
             {
                 tasks.Add(task);
-                return Json(new { success = true, redirectUrl = "/ToDo/" + task });
-            }
-            //return Json(tasks);
-            return Json(new { success = false });
 
+                return Json(new { success = true, taskText = task });
+            }
+
+            return Json(new { success = false });
         }
 
         public ActionResult NewTask(string id)

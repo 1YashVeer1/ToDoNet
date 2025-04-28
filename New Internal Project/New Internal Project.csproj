@@ -128,6 +128,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -184,7 +185,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ToDo\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Detail\detail.cshtml" />
+    <Content Include="Views\Detail\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

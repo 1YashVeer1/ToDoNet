@@ -23,10 +23,12 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
             </div>
-            <div>
+            <div style="display:flex">
+                <a href="@Url.Action("Index", "Detail")">
+                    <button style="width: 100%; color: white; background-color: skyblue; border-radius: 10px; border: none; padding: 0.7rem; font-size: 1rem; font-weight: bold; cursor: pointer;">EmployeeForm </button>
+                </a>
                 <a href="@Url.Action("Logout", "Login")">
                     <button style="width: 100%; color: white; background-color: transparent; border-radius: 10px; border: none; padding: 0.8rem; font-size: 1rem; font-weight: bold; cursor: pointer; transition: color 0.2s, background 0.3s">🚪 Logout</button>
-
                 </a>
 
             </div>

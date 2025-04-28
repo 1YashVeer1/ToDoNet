@@ -1,0 +1,141 @@
+﻿
+@model List<New_Internal_Project.Models.Employee>
+
+@{
+    ViewBag.Title = "Employee Detail";
+}
+
+<style>
+    table {
+        font-family: Arial;
+        border-collapse: collapse;
+    }
+
+    td {
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    .maindiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        flex-direction: column;
+    }
+
+    .formclass {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .employeeclass {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        color: white;
+        background-color: deepskyblue;
+        border-radius: 10px;
+        border: none;
+        padding: 0.8rem;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+        .btn:hover {
+            background-color: dodgerblue;
+        }
+
+    .tableMainDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        gap: 3rem;
+    }
+
+    .tablestyle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tablebox {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<div class="maindiv">
+    <div>
+        <h2> Employee form</h2>
+    </div>
+    <form class="formclass" method="post" action="@Url.Action("Index", "Detail")">
+        <div class="employeeclass">
+            <label>Employee Name:</label>
+            <input type="text" name="EmployeeName" required />
+            <br /><br />
+
+            <label>Employee City:</label>
+            <input type="text" name="EmployeeCity" required />
+            <br /><br />
+
+            <label>Employee Salary:</label>
+            <input type="text" name="EmployeeSalary" required />
+            <br /><br />
+
+            <label>Employee Role:</label>
+            <input type="text" name="EmployeeRole" required />
+            <br /><br />
+        </div>
+        <div>
+            <button class="btn" type="submit">Submit</button>
+        </div>
+
+
+    </form>
+</div>
+@if (Model != null && Model.Any())
+{
+
+    <div class="tableMainDiv">
+        <div>
+            <h3>Employee Details Table</h3>
+        </div>
+        <div class="tablebox">
+            <table border="1" cellpadding="8" cellspacing="0" style="width:60%">
+                <thead>
+                    <tr style="text-align:center">
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Salary</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in Model)
+                    {
+                        <tr style="text-align:center">
+                            <td>@emp.EmployeeName</td>
+                            <td>@emp.EmployeeCity</td>
+                            <td>@emp.EmployeeSalary</td>
+                            <td>@emp.EmployeeRole</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+

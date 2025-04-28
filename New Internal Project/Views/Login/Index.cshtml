@@ -84,13 +84,6 @@
     <div class="login-box">
         <h2>Login</h2>
 
-        @*@if (!string.IsNullOrEmpty(ViewBag.Message))
-        {
-            <script>
-                alert("@ViewBag.Message");
-            </script>
-        }*@
-
         <form method="post" action="@Url.Action("Index", "Login")">
             <label>Username:</label>
             <input type="text" name="username" placeholder="Enter your username" required />

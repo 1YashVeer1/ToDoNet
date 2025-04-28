@@ -9,17 +9,22 @@ namespace New_Internal_Project.Controllers
 {
     public class DetailController : Controller
     {
-        // GET: Detail
-            public ActionResult Details()
+        private static List<Employee> employeeList = new List<Employee>();
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View(employeeList);
+        }
+
+        [HttpPost]
+        public ActionResult Index(Employee employee)
+        {
+            if (ModelState.IsValid)
             {
-                Employee employee = new Employee()
-                {
-                    Id = 101,
-                    Name = "Yash",
-                    Gender = "Male",
-                    City = "jaipur"
-                };
-                return View(employee);
+                employeeList.Add(employee);
             }
+            return RedirectToAction("Index");
+        }
     }
 }
